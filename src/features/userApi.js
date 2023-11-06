@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({
-        // baseUrl: process.env.NODE_ENV === "production" ? '' : 'http://localhost:5000', 'credentials': 'include',
-        baseUrl:  'https://appropriate-world-backend.onrender.com',
+        baseUrl: 'https://appropriate-world-backend.onrender.com', 'credentials': 'include',
+        // baseUrl:  'http://localhost:5000',
         'mode': 'cors',
         'headers': {
             'accept': 'application/json, text/plain, */*', 'content-type': 'application/json'
@@ -27,7 +27,7 @@ const userApi = createApi({
         // Register User
         registerUser: builder.mutation({
             query: ({ name, email, password }) => ({
-                url: '/api/user/',
+                url: '/api/user/mobile',
                 method: 'POST',
                 body: { name, email, password }
             }),
@@ -40,6 +40,30 @@ const userApi = createApi({
                 method: 'POST'
             }),
         }),
+
+
+         // Forgot Password
+         forgotPassword: builder.mutation({
+            query: ({ email }) => {
+                return {
+                    url: `/api/user/forgot-password`,
+                    method: 'POST',
+                    body: { email }
+                }
+            }
+        }),
+
+        resetPassword: builder.mutation({
+
+            query: ({ token, password }) => {
+                return {
+                    url: `/api/user/reset-password/${token}`,
+                    method: 'POST',
+                    body: { newPassword: password }
+                }
+            }
+
+        })
 
     })
 })

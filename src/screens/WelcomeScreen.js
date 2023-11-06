@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View, Image,TouchableOpacity } from 'react-native'
 import React from 'react'
 import Style, { colors } from '../css'
+import { useDispatch } from 'react-redux'
+import { changeWelcome } from '../features/localSlice'
 
 const WelcomeScreen = ({ navigation }) => {
 
-
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -12,7 +14,7 @@ const WelcomeScreen = ({ navigation }) => {
       <Image style={styles.cover} source={require('../assert/welcome2.png')} />
     </View> */}
     <View style={{ flex : 1, alignItems : 'center', justifyContent:'space-around', backgroundColor : colors.primary    }} >
-      <TouchableOpacity style={styles.btn} onPress={()=> navigation.navigate('Register')} >
+      <TouchableOpacity style={styles.btn} onPress={()=> dispatch(changeWelcome())} >
       <Image style={styles.logo}  source={require('../assert/logo.gif')} />
       {/* <View>
       <Text style={styles.text} >Welcome to</Text>

@@ -5,6 +5,7 @@ import blogApi from "./src/features/blogApi";
 import userApi from "./src/features/userApi";
 import profileApi from "./src/features/profileApi";
 import chatApi from "./src/features/chatApi";
+import forumApi from "./src/features/forumApi";
 
 const store = configureStore({
     reducer: {
@@ -13,11 +14,11 @@ const store = configureStore({
         [userApi.reducerPath]: userApi.reducer,
         [profileApi.reducerPath]: profileApi.reducer,
         [chatApi.reducerPath]: chatApi.reducer,
+        [forumApi.reducerPath]: forumApi.reducer,
     },
     middleware: (getDefaultMiddleware) => (
         getDefaultMiddleware().concat(blogApi.middleware).concat(userApi.middleware).concat(profileApi
-            .middleware).concat(chatApi
-                .middleware)
+            .middleware).concat(chatApi.middleware).concat(forumApi.middleware)
     )
 })
 

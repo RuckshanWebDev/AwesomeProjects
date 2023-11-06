@@ -11,20 +11,40 @@ import Style, { colors } from '../css';
 import { useRegisterUserMutation } from '../features/userApi'
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storeData } from '../utils/AsyncStorage';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../features/localSlice';
+import { showMessage } from 'react-native-flash-message';
 
 const RegisterScreen = ({navigation}) => {
 
+  const dispatch = useDispatch()
   const [name, setName] = useState()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   
   const [registerFn, registerData ] = useRegisterUserMutation()
+  console.log(registerData);
 
   const formHandler = async()=>{
-    console.log(name);
-    console.log(email);
-    console.log(password);
-    registerFn({name, email, password})
+
+    try {
+      if(!name || !email || !password) {
+        showMessage({
+          message: "Enter the Valid Credentials",
+          type: "warning",
+        })
+        return
+      }
+
+      const response = await registerFn({name, email, password}).unwrap()
+      console.log('😀😀😀',response); 
+      storeData('token', response.data.token )
+      dispatch(setToken(response.data.token))
+    } catch (error) {
+      
+    }
+
   } 
 
   return (

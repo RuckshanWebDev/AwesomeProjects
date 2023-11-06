@@ -1,10 +1,42 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View,TextInput, Button, Touchable, TouchableOpacity } from 'react-native'
-import React from 'react'
 import Style, { colors } from '../css'
+import { useCreateBlogMutation } from '../features/blogApi'
+import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { showMessage } from 'react-native-flash-message'
 
 
 const AddBlog = () => {
-//
+
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+
+  const { token } = useSelector(state => state.local)
+  const [addBlogFn, addBlog] = useCreateBlogMutation()
+
+  console.log(addBlog);
+
+  const formHandler = async ()=>{
+    console.log(title, content);
+
+    try {
+      
+      await addBlogFn({token, data : { content, title } }).unwrap()
+      showMessage({
+        message: "Blog Addedd",
+        type: "success",
+      });    
+    } catch (error) {
+      showMessage({
+        message: "Blog Failed",
+        description: "Something went wrong, Please try again!",
+        type: "danger",
+      });    
+      
+    }
+  }
+
+
 //  const ImageHandler = async ()=>{
 //
 //    const options = {
@@ -40,14 +72,14 @@ const AddBlog = () => {
       <ScrollView >
         <View>
           <Text style={[Style.p, Style.mlS]} >Title</Text>
-          <TextInput placeholder='Title for the Blog'  placeholderTextColor="#fff"  style={[Style.inputFullWidth, Style.mbM]} />
+          <TextInput placeholder='Title for the Blog'  placeholderTextColor="#fff"  style={[Style.inputFullWidth, Style.mbM]} onChangeText={ value => setTitle(value) }/>
 
           <Button title='Image Upload' color={colors.secondry} />
 
           <Text style={[Style.p, Style.mlS, Style.mtM]} >Content</Text>
-          <TextInput multiline={true} numberOfLines={4} style={Style.inputFullWidth} />
+          <TextInput multiline={true} numberOfLines={4} style={Style.inputFullWidth} onChangeText={ value => setContent(value) }/>
 
-          <TouchableOpacity style={[Style.mtM, Style.btn]} ><Text style={Style.btnText} >Post</Text></TouchableOpacity>
+          <TouchableOpacity style={[Style.mtM, Style.btn]} onPress={formHandler} ><Text style={Style.btnText} >Post</Text></TouchableOpacity>
 
         </View>
       </ScrollView>

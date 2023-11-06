@@ -18,11 +18,11 @@ async function getData (name, obj)  {
     try {
         const value = await AsyncStorage.getItem(name);
         if (value === null ) return;
-        // if(obj){
-        //     return JSON.parse(value)
-        // }else{
-        //     return value
-        // }
+        if(obj){
+            return JSON.parse(value)
+        }else{
+            return value
+        }
         return value
 
     } catch (e) {

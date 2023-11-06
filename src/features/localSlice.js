@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { storeData } from '../utils/AsyncStorage'
 
 const initialState = {
     popup: false,
     count : 0,
-    // user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
+    user: null,
     // notifications: localStorage.getItem('notification') ? JSON.parse(localStorage.getItem('notification')) : [],
     // notificationCount: 0,
     // localContactId: '',
     token: null,
     auth : false,
+    welcome : false
 }
+
 
 const localSlice = createSlice({
     name: "local",
@@ -21,6 +24,13 @@ const localSlice = createSlice({
         setToken : (state, action)=>{
             state.token = action.payload
             state.auth = state.token ? true : false
+        },
+        setUser : (state, action)=>{
+            state.user = action.payload
+            storeData('user', action.payload, true);
+        },
+        changeWelcome : (state, action)=>{
+            state.welcome = true
         }
         // togglePopup: (state) => {
         //     state.popup = !state.popup
@@ -48,5 +58,5 @@ const localSlice = createSlice({
 })
 
 // export const { setLocalContactId, togglePopup, setUser, clearUser, setProfileId, addNotify } = localSlice.actions
-export const {  authToggle, setToken} = localSlice.actions
+export const {  authToggle, setToken, setUser, changeWelcome} = localSlice.actions
 export default localSlice.reducer

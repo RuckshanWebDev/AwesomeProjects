@@ -185,7 +185,7 @@ const Style = StyleSheet.create({
   ptL: {paddingTop: 50},
   pbS: {paddingBottom: 10},
   pbM: {paddingBottom: 40},
-  pbL: {paddingBottom: 80},
+  pbL: {paddingBottom: 50},
 });
 
 

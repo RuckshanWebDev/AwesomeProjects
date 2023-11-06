@@ -9,8 +9,8 @@ import Style, {colors} from '../css';
 import FloatButton from '../components/FloatButton'
 import { useGetProfileQuery } from '../features/profileApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeValue } from '../utils/AsyncStorage';
-import { setToken } from '../features/localSlice';
+import { getData, removeValue, storeData } from '../utils/AsyncStorage';
+import { setToken, setUser } from '../features/localSlice';
 import { useEffect, useCallback } from 'react';
 import Loading from '../components/Loading';
 import { useFocusEffect } from '@react-navigation/native';
@@ -20,7 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const ProfileScreen = () => {
 
   const dispatch = useDispatch()
-  const { token } = useSelector(state=>state.local)
+  const { token, user } = useSelector(state=>state.local)
  
 
   const logout = ()=>{
@@ -29,13 +29,23 @@ const ProfileScreen = () => {
     }
 
     const getProfileFn = useGetProfileQuery(token)
-    console.log('>>>>>>>>>>', getProfileFn);
+    console.log('>>>>>>>>>>', getProfileFn);  
     
-    useFocusEffect(
-      useCallback(() => {
-       
-    }, [])
-  )
+  //   useFocusEffect(
+  //     useCallback(() => {
+
+
+
+  //   }, [])
+  // )
+
+  useEffect(()=>{
+    if(getProfileFn.isSuccess){
+      console.log('PROFILE SUCCESS');
+      storeData('user', getProfileFn.data.data[0], true);
+      dispatch(setUser(getProfileFn.data.data[0]))
+    }
+  },[getProfileFn.isSuccess])
 
   
   return <>{
@@ -57,10 +67,10 @@ const ProfileScreen = () => {
               style={[Style.avatarProfile, Style.mbS]}
               source={require('../assert/pp.jpg')}
             />
-            <Text style={Style.h1}>{getProfileFn?.data?.data[0].name || "Name"} </Text>
-            <Text style={Style.h3}>{getProfileFn?.data?.data[0].profession || "No Profession"} </Text>
+            <Text style={Style.h1}>{getProfileFn?.data?.data[0]?.name || "Name"} </Text>
+            <Text style={Style.h3}>{getProfileFn?.data?.data[0]?.profession || "No Profession"} </Text>
             <Text style={Style.p}>
-            {getProfileFn?.data?.data[0].bio || "Add your Bio"}
+            {getProfileFn?.data?.data[0]?.bio || "Add your Bio"}
             </Text>
           </View>
 
@@ -80,7 +90,7 @@ const ProfileScreen = () => {
                 {gap: 20, alignItems: 'center', paddingHorizontal: 20},
               ]}>
               <Image style={style.icon} source={require('../assert/icons/name.png')} />
-              <Text style={Style.h5}>{getProfileFn?.data?.data[0].name || "Name"}</Text>
+              <Text style={Style.h5}>{getProfileFn?.data?.data[0]?.name || "Name"}</Text>
             </View>
             <View
               style={[
@@ -89,7 +99,7 @@ const ProfileScreen = () => {
                 {gap: 20, alignItems: 'center', paddingHorizontal: 20},
               ]}>
               <Image style={style.icon} source={require('../assert/icons/dob.png')} />
-              <Text style={Style.h5}>{getProfileFn?.data?.data[0].dob || "DOB"}</Text>
+              <Text style={Style.h5}>{getProfileFn?.data?.data[0]?.dob || "DOB"}</Text>
             </View>
             <View
               style={[
@@ -101,7 +111,7 @@ const ProfileScreen = () => {
                 style={style.icon}
                 source={require('../assert/icons/creator.png')}
               />
-              <Text style={Style.h5}>{getProfileFn?.data?.data[0].profession || "No Profession"}</Text>
+              <Text style={Style.h5}>{getProfileFn?.data?.data[0]?.profession || "No Profession"}</Text>
             </View>
             <View
               style={[
@@ -113,7 +123,7 @@ const ProfileScreen = () => {
                 style={style.icon}
                 source={require('../assert/icons/location.png')}
               />
-              <Text style={Style.h5}>{getProfileFn?.data?.data[0].location || "Location"}</Text>
+              <Text style={Style.h5}>{getProfileFn?.data?.data[0]?.location || "Location"}</Text>
             </View>
             <View
               style={[
@@ -125,7 +135,7 @@ const ProfileScreen = () => {
                 style={style.icon}
                 source={require('../assert/icons/interest.png')}
               />
-              <Text style={Style.h5}>{getProfileFn?.data?.data[0].hobby[0] || "Interested"}</Text>
+              <Text style={Style.h5}>{getProfileFn?.data?.data[0]?.hobby[0] || "Interested"}</Text>
             </View>
           </View>
           <Button title={'Logout'} onPress={logout} />

@@ -4,28 +4,41 @@ import {BlurView} from '@react-native-community/blur';
 import {colors} from '../css';
 import FloatButton from '../components/FloatButton';
 import Post from '../components/Post';
+import { useGetBlogsQuery } from '../features/blogApi';
+import Loading from '../components/Loading'
 
 const BlogScreen = ({navigation}) => {
 
-  const blogPressHandler = ()=>{
-    navigation.navigate('SingleBlog');
+  const blogPressHandler = (id)=>{
+    navigation.navigate('SingleBlog',  { blogId : id });
   }
 
+  const blogs = useGetBlogsQuery()
+  console.log(blogs);
+
   return (
-    <SafeAreaView style={[style.bg, Style.pbM]}>
+
+    <>
+    {
+      blogs.isLoading ? 
+      <Loading />
+      :
+      <SafeAreaView style={[style.bg, Style.pbM]}>
       <FloatButton type={'add'} redirect={'AddBlog'} />
       <ScrollView>
-        <TouchableOpacity key={1} style={[style.blog, Style.mbM]} onPress={blogPressHandler} >
-        <Post text={true} image={true} />
-        </TouchableOpacity >
-        <TouchableOpacity key={2} style={[style.blog, Style.mbM]} onPress={blogPressHandler} >
-        <Post text={true} image={true} />
-        </TouchableOpacity >
-        <TouchableOpacity key={3} style={[style.blog, Style.mbM]} onPress={blogPressHandler} >
-        <Post text={true} image={true} />
-        </TouchableOpacity >
+        {
+          blogs.isSuccess && blogs.data.data.map(item=>{
+
+            return (<TouchableOpacity key={item._id} style={[style.blog, Style.mbM]} onPress={()=>blogPressHandler(item._id)} >
+                <Post text={true} image={true} item={item} />
+              </TouchableOpacity >
+            )
+
+          })
+        }
       </ScrollView>
-    </SafeAreaView>
+    </SafeAreaView>}
+    </>
   );
 };
 

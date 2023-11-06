@@ -2,7 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const blogApi = createApi({
     reducerPath: 'blogApi',
-    baseQuery: fetchBaseQuery({ baseUrl: process.env.NODE_ENV === "production" ? 'https://appropriate-world-backend.onrender.com' : 'http://localhost:5000', }),
+    baseQuery: fetchBaseQuery({ 
+        baseUrl: 'https://appropriate-world-backend.onrender.com' }),
     endpoints: (builder) => ({
 
         getBlogs: builder.query({
@@ -12,7 +13,7 @@ const blogApi = createApi({
         }),
 
         getSigleBlogs: builder.query({
-            query: (url = '') => {
+            query: (  url = '') => {
                 console.log(url);
                 return `/api/blog/${url}`
             }
@@ -33,7 +34,7 @@ const blogApi = createApi({
         }),
 
         createBlog: builder.mutation({
-            query: (data) => {
+            query: ({token, data}) => {
                 return {
                     url: '/api/blog',
                     method: "POST",
@@ -41,6 +42,7 @@ const blogApi = createApi({
                     'credentials': 'include',
                     'mode': 'cors',
                     'headers': {
+                        'token': token,
                         'accept': 'application/json, text/plain, */*', 'content-type': 'application/json'
                     }
                 }

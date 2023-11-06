@@ -26,13 +26,13 @@ const MenuBlur = () => {
 
 export const HomeScreen = ({navigation}) => {
   const musicHandler = e => {
-    navigation.navigate('Music');
+    navigation.navigate('Music', e);
     
   };
 
   return (
     <SafeAreaView style={[style.container]}>
-      <ScrollView>
+      <ScrollView removeClippedSubviews={true} >
         {/* Header */}
         <View style={style.header}>
           {/* <MenuBlur /> */}
@@ -49,6 +49,7 @@ export const HomeScreen = ({navigation}) => {
           <Text style={style.link}>See more</Text>
         </View>
         <View style={[style.grid2, style.pbL]}>
+
         <TouchableHighlight
             underlayColor="black"
             onPress={() => musicHandler('man with the gun')} style={style.box2}>
@@ -59,72 +60,88 @@ export const HomeScreen = ({navigation}) => {
                 />
               </View>
         </TouchableHighlight>
+
           <View style={style.box2}>
             <Image
               style={style.image}
               source={require('../assert/NEW_RELEASES/2_Detective.png')}
             />
           </View>
+
           <View style={style.box2}>
             <Image
               style={style.image}
               source={require('../assert/NEW_RELEASES/3_AC2_COVER.jpg')}
             />
           </View>
+
           <View style={style.box2}>
             <Image
               style={style.image}
               source={require('../assert/NEW_RELEASES/4_Ju_MerryChristmas.png')}
             />
           </View>
+
           <View style={style.box2}>
             <Image
               style={style.image}
               source={require('../assert/NEW_RELEASES/5.png')}
             />
           </View>
+
           <View style={style.box2}>
             <Image
               style={style.image}
               source={require('../assert/NEW_RELEASES/6_Alien_N_Kick.jpg')}
             />
           </View>
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/7_APPROPRIATE_AUDIO.jpg')}
-            />
-          </View>
+
+          <TouchableHighlight
+            underlayColor="black"
+            onPress={() => musicHandler('APPROPRIATE CULTURE SNOWSTORM')} style={style.box2}>
+            <View >
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/7_APPROPRIATE_AUDIO.jpg')}
+                />
+            </View>
+          </TouchableHighlight>
+
           <View style={style.box2}>
             <Image
               style={style.image}
               source={require('../assert/NEW_RELEASES/8.jpg')}
             />
           </View>
+
           <View style={style.box2}>
             <Image
               style={style.image}
               source={require('../assert/NEW_RELEASES/9_EVERYBODIES_WATCHING.png')}
             />
           </View>
+
           <View style={style.box2}>
             <Image
               style={style.image}
               source={require('../assert/NEW_RELEASES/10_AUTONOMY_AUDIO_EPISODES.png')}
             />
           </View>
+
           <View style={style.box2}>
             <Image
               style={style.image}
               source={require('../assert/NEW_RELEASES/11_Bugging_Gilbert.png')}
             />
           </View>
+
           <View style={style.box2}>
             <Image
               style={style.image}
               source={require('../assert/NEW_RELEASES/12_GAMESHOW_LOGO.jpg')}
             />
           </View>
+
           <View style={style.box2}>
             <Image
               style={style.image}
@@ -191,7 +208,9 @@ export const HomeScreen = ({navigation}) => {
           <ScrollView
             scrollEnabled={true}
             scrollToOverflowEnabled={true}
-            horizontal={true}>
+            horizontal={true}
+              style={{ height : 'auto' }}
+            >
             <View style={style.grid}>
               <TouchableHighlight
                 underlayColor="black"
@@ -304,21 +323,21 @@ const style = StyleSheet.create({
     right: 0,
   },
   box: {
-    backgroundColor: '#651064',
+    backgroundColor: colors.dark,
     width: 190,
     height: 260,
     borderRadius: 15,
     overflow: 'hidden',
   },
   box2: {
-    backgroundColor: '#651064',
+    backgroundColor: colors.dark,
     width: '47%',
     height: 250,
     borderRadius: 15,
     overflow: 'hidden',
   },
   box3: {
-    backgroundColor: '#651064',
+    backgroundColor: colors.dark,
     width: 280,
     height: 170,
     borderRadius: 15,

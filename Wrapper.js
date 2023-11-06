@@ -55,7 +55,7 @@ const MenuBlur = () => {
 
 const Wrapper = () => {
 
-  const {auth, token} = useSelector(state=> state.local)
+  const {auth, token, welcome} = useSelector(state=> state.local)
   console.log(auth, token);
 
   const BottomTabs = ()=>{
@@ -123,15 +123,17 @@ const Wrapper = () => {
       <NavigationContainer>
         
         {
+
+          !welcome ?
+          <Screen.Navigator >
+            <Screen.Screen  name="Welcome" component={WelcomeScreen} options={{tabBarButton: props => null, headerShown: false}}/>
+          </Screen.Navigator>
+          :
           !auth ?
 
           <Screen.Navigator >
-            <Screen.Screen  name="Welcome" component={WelcomeScreen} options={{tabBarButton: props => null, headerShown: false}}/>
-
-            <Screen.Screen  name="Register" component={RegisterScreen} options={{tabBarButton: props => null, headerShown: false}}/>
-
             <Screen.Screen  name="Login" component={LoginScreen} options={{tabBarButton: props => null, headerShown: false}}/>
-
+            <Screen.Screen  name="Register" component={RegisterScreen} options={{tabBarButton: props => null, headerShown: false}}/>
           </Screen.Navigator>
 
           :
@@ -172,9 +174,11 @@ const Wrapper = () => {
             component={AddBlog}
             options={ {
                 tabBarStyle: { display: "none" },
-                tabBarButton: ()=> false,
+                tabBarButton: props => null,
                 headerShown: true,
+                headerLeft: null,
                 title : 'Add a Blog',
+                headerBackTitleVisible: true,
                 headerTitleStyle : {
                 color : '#fff'
                 },
