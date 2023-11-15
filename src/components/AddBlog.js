@@ -4,17 +4,25 @@ import { useCreateBlogMutation } from '../features/blogApi'
 import { useSelector } from 'react-redux'
 import React, { useState } from 'react'
 import { showMessage } from 'react-native-flash-message'
+import ImageUploader, { ImageConstructor } from '../utils/ImageUpload'
 
 
 const AddBlog = () => {
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [model, setModel] = useState(false)
 
   const { token } = useSelector(state => state.local)
   const [addBlogFn, addBlog] = useCreateBlogMutation()
 
   console.log(addBlog);
+
+  const imageHandler = async (source)=>{
+    const imageHandlerBlog = new ImageConstructor(source, 'blog_images')
+    const preview = await imageHandlerBlog.getPreview()
+    console.log(preview);
+  }
 
   const formHandler = async ()=>{
     console.log(title, content);
@@ -68,13 +76,17 @@ const AddBlog = () => {
 //  }
 
   return (
-    <SafeAreaView style={styles.bg}>
+    <SafeAreaView style={styles.bg} onPointerEnter={()=> console.log("fffffffffff")} >
+      { model && <View style={Style.model} >
+          <TouchableOpacity style={Style.modelBtn} onPress={()=>imageHandler('gallery')} ><Text style={Style.modelBtnText} >Choose from Gallery</Text></TouchableOpacity>
+          <TouchableOpacity style={Style.modelBtn} onPress={()=>imageHandler('camera')} ><Text style={Style.modelBtnText}>Open Camera</Text></TouchableOpacity>
+        </View>}
       <ScrollView >
         <View>
           <Text style={[Style.p, Style.mlS]} >Title</Text>
           <TextInput placeholder='Title for the Blog'  placeholderTextColor="#fff"  style={[Style.inputFullWidth, Style.mbM]} onChangeText={ value => setTitle(value) }/>
 
-          <Button title='Image Upload' color={colors.secondry} />
+          <Button title='Image Upload' color={colors.secondry} onPress={()=>setModel(true)} />
 
           <Text style={[Style.p, Style.mlS, Style.mtM]} >Content</Text>
           <TextInput multiline={true} numberOfLines={4} style={Style.inputFullWidth} onChangeText={ value => setContent(value) }/>

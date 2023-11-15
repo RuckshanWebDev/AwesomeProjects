@@ -12,8 +12,8 @@ const axiosOption = {
 const profileApi = createApi({
     reducerPath: 'profileApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://appropriate-world-backend.onrender.com',
-        // baseUrl: 'http://localhost:5000',
+        // baseUrl: 'https://appropriate-world-backend.onrender.com',
+        baseUrl: 'http://localhost:5000',
         'credentials': 'include',
         'mode': 'cors',
         'headers': {
@@ -52,7 +52,6 @@ const profileApi = createApi({
         // Update a profile
         updateProfile: builder.mutation({
             query: ({token, data}) => {
-                console.log(name);
                 return{url: '/api/profile',
                 method: "PUT",
                 body: data,

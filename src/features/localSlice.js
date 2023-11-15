@@ -26,6 +26,7 @@ const localSlice = createSlice({
             state.auth = state.token ? true : false
         },
         setUser : (state, action)=>{
+            console.log(action.payload, '😎😎😎');
             state.user = action.payload
             storeData('user', action.payload, true);
         },

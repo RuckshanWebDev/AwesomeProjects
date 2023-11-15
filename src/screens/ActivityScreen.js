@@ -71,7 +71,10 @@ const ActivityScreen =() => {
   )
 
 
-  return (
+  return (<>
+  {activity.isLoading ?
+        <Loading />
+        :
     <SafeAreaView style={[styles.bg, Style.pbM]}>
       <ScrollView>
         <View style={[styles.row,]} >
@@ -83,10 +86,7 @@ const ActivityScreen =() => {
           <TouchableOpacity style={{marginTop : 15}} onPress={formHandler} ><Image style={Style.icon} source={require('../assert/icons/send-message.png')}  /></TouchableOpacity>
         </View>
         </View>
-       {activity.isLoading ?
-        <Loading />
-        :
-        activity.isSuccess && activity.data.data.length ?
+        {activity.isSuccess && activity.data.data.length ?
 
         allActivity.map(item=>{
           return <PostAdvanced key={item._id} text={'text'} icon={true} item={item} likeHandlerReAdapt={likeHandlerReAdapt}/>
@@ -97,6 +97,8 @@ const ActivityScreen =() => {
         }
       </ScrollView>
     </SafeAreaView>
+    }
+    </>
   );
 };
 

@@ -25,9 +25,13 @@ const MenuBlur = () => {
 };
 
 export const HomeScreen = ({navigation}) => {
+
   const musicHandler = e => {
     navigation.navigate('Music', e);
-    
+  };
+
+  const videoHandler = e => {
+    navigation.navigate('Video', e);
   };
 
   return (
@@ -48,54 +52,82 @@ export const HomeScreen = ({navigation}) => {
           <Text style={style.title}>New Release</Text>
           <Text style={style.link}>See more</Text>
         </View>
+
         <View style={[style.grid2, style.pbL]}>
 
-        <TouchableHighlight
-            underlayColor="black"
-            onPress={() => musicHandler('man with the gun')} style={style.box2}>
-              <View >
-                <Image
-                  style={style.image}
-                  source={require('../assert/NEW_RELEASES/1_AC_1.5.png')}
+          {/* APPROPRIATE CULTURE SEASON 1.5 */}
+          <TouchableHighlight
+              underlayColor="black"
+              onPress={() => videoHandler('APPROPRIATE CULTURE SEASON 1.5')} style={style.box2}>
+                <View >
+                  <Image
+                    style={style.image}
+                    source={require('../assert/NEW_RELEASES/1_AC_1.5.png')}
+                  />
+                </View>
+          </TouchableHighlight>
+
+          {/* DETECTIVE BLK */}
+          <TouchableHighlight
+              underlayColor="black"
+              onPress={() => videoHandler('DETECTIVE BLK')} style={style.box2}>
+            <View>
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/2_Detective.png')}
                 />
-              </View>
-        </TouchableHighlight>
+            </View>
+          </TouchableHighlight>
 
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/2_Detective.png')}
-            />
-          </View>
+          {/* APPROPRIATE CULTURE SEASON 2 */}
+          <TouchableHighlight
+              underlayColor="black"
+              onPress={() => videoHandler('APPROPRIATE CULTURE SEASON 2')} style={style.box2}>
+            <View>
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/3_AC2_COVER.jpg')}
+                />
+            </View>
+          </TouchableHighlight>
 
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/3_AC2_COVER.jpg')}
-            />
-          </View>
+          {/* APPROPRIATE CHRISTMAS SPECIAL */}
+          <TouchableHighlight
+              underlayColor="black"
+              onPress={() => videoHandler('APPROPRIATE CHRISTMAS SPECIAL')} style={style.box2}>
+            <View>
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/4_Ju_MerryChristmas.png')}
+              />
+            </View>
+          </TouchableHighlight>
 
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/4_Ju_MerryChristmas.png')}
-            />
-          </View>
+          {/* APPROPRIATE CULTURE SEASON ONE */}
+          <TouchableHighlight
+              underlayColor="black"
+              onPress={() => videoHandler('APPROPRIATE CULTURE SEASON ONE')} style={style.box2}>
+            <View>
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/5.png')}
+              />
+            </View>
+          </TouchableHighlight>
 
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/5.png')}
-            />
-          </View>
+          {/* ALIEN N KICK */}
+          <TouchableHighlight
+              underlayColor="black"
+              onPress={() => videoHandler('ALIEN N KICK')} style={style.box2}>
+            <View >
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/6_Alien_N_Kick.jpg')}
+              />
+            </View>
+          </TouchableHighlight>
 
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/6_Alien_N_Kick.jpg')}
-            />
-          </View>
-
+          {/* APPROPRIATE CULTURE SNOWSTORM */}
           <TouchableHighlight
             underlayColor="black"
             onPress={() => musicHandler('APPROPRIATE CULTURE SNOWSTORM')} style={style.box2}>
@@ -107,47 +139,73 @@ export const HomeScreen = ({navigation}) => {
             </View>
           </TouchableHighlight>
 
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/8.jpg')}
-            />
-          </View>
+          {/* YOUR FRIEND JIGGY */}
+          <TouchableHighlight
+              underlayColor="black"
+              onPress={() => videoHandler('YOUR FRIEND JIGGY')} style={style.box2}>
+            <View>
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/8.jpg')}
+              />
+            </View>
+          </TouchableHighlight>
 
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/9_EVERYBODIES_WATCHING.png')}
-            />
-          </View>
+          {/* EVERY BODIES WATCHING */}
+          <TouchableHighlight
+              underlayColor="black"
+              onPress={() => musicHandler('EVERY BODIES WATCHING')} style={style.box2}>
+            <View>
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/9_EVERYBODIES_WATCHING.png')}
+              />
+            </View>
+          </TouchableHighlight>
 
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/10_AUTONOMY_AUDIO_EPISODES.png')}
-            />
-          </View>
+          {/* AUTONOMY AUDIO */}
+          <TouchableHighlight
+              underlayColor="black"
+              onPress={() => musicHandler('AUTONOMY AUDIO')} style={style.box2}>
+            <View>
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/10_AUTONOMY_AUDIO_EPISODES.png')}
+              />
+            </View>
+          </TouchableHighlight>
 
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/11_Bugging_Gilbert.png')}
-            />
-          </View>
+          {/* BUGGING GILBERT */}
+          <TouchableHighlight
+              underlayColor="black"
+              onPress={() => videoHandler('BUGGING GILBERT')} style={style.box2}>
+            <View >
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/11_Bugging_Gilbert.png')}
+              />
+            </View>
+          </TouchableHighlight>
 
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/12_GAMESHOW_LOGO.jpg')}
-            />
-          </View>
+            <View style={style.box2}>
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/12_GAMESHOW_LOGO.jpg')}
+              />
+            </View>
 
-          <View style={style.box2}>
-            <Image
-              style={style.image}
-              source={require('../assert/NEW_RELEASES/13_artworks.jpg')}
-            />
-          </View>
+          {/* Playa PLaya Sophisticated Thoughts */}
+          <TouchableHighlight
+              underlayColor="black"
+              onPress={() => videoHandler('Playa PLaya Sophisticated Thoughts')} style={style.box2}>
+            <View >
+              <Image
+                style={style.image}
+                source={require('../assert/NEW_RELEASES/13_artworks.jpg')}
+              />
+            </View>
+          </TouchableHighlight>
+        
         </View>
 
         {/* Horizontal */}
@@ -156,11 +214,14 @@ export const HomeScreen = ({navigation}) => {
             <Text style={style.title}>Videos </Text>
             <Text style={style.link}>See more</Text>
           </View>
+
           <ScrollView
             scrollEnabled={true}
             scrollToOverflowEnabled={true}
             horizontal={true}>
             <View style={style.grid}>
+
+              {/* Coming Soon */}
               <TouchableHighlight
                 underlayColor="black"
                 onPress={() => musicHandler('man with the gun')}>
@@ -171,30 +232,56 @@ export const HomeScreen = ({navigation}) => {
                   />
                 </View>
               </TouchableHighlight>
-              <View style={style.box3}>
-                <Image
-                  style={style.image}
-                  source={require('../assert/HORIZONTAL/02.png')}
-                />
-              </View>
-              <View style={style.box3}>
-                <Image
-                  style={style.image}
-                  source={require('../assert/HORIZONTAL/03.png')}
-                />
-              </View>
-              <View style={style.box3}>
-                <Image
-                  style={style.image}
-                  source={require('../assert/HORIZONTAL/Julian_Stephen_Prince_Charming-front-large.jpg')}
-                />
-              </View>
-              <View style={style.box3}>
-                <Image
-                  style={style.image}
-                  source={require('../assert/HORIZONTAL/RestartContinueCover.jpg')}
-                />
-              </View>
+
+              {/* Coming Soon */}
+              <TouchableHighlight
+                underlayColor="black"
+                onPress={() => musicHandler('man with the gun')}>
+                <View style={style.box3}>
+                  <Image
+                    style={style.image}
+                    source={require('../assert/HORIZONTAL/02.png')}
+                  />
+                </View>
+              </TouchableHighlight>
+
+               {/* Coming Soon */}
+              <TouchableHighlight
+                underlayColor="black"
+                onPress={() => musicHandler('PRINCE CHARMING COVER')}>
+                <View style={style.box3}>
+                  <Image
+                    style={style.image}
+                    source={require('../assert/HORIZONTAL/03.png')}
+                    />
+                </View>
+              </TouchableHighlight>
+
+              {/* PRINCE CHARMING COVER */}
+              <TouchableHighlight
+                underlayColor="black"
+                onPress={() => musicHandler('PRINCE CHARMING COVER')}>
+                <View style={style.box3}>
+                  <Image
+                    style={style.image}
+                    source={require('../assert/HORIZONTAL/Julian_Stephen_Prince_Charming-front-large.jpg')}
+                    />
+                </View>
+              </TouchableHighlight>
+
+              {/* RESTART CONTINUE */}
+              <TouchableHighlight
+                underlayColor="black"
+                onPress={() => musicHandler('RESTART CONTINUE')}>
+                <View style={style.box3}>
+                  <Image
+                    style={style.image}
+                    source={require('../assert/HORIZONTAL/RestartContinueCover.jpg')}
+                  />
+                </View>
+              </TouchableHighlight>
+
+
             </View>
           </ScrollView>
         </View>
@@ -210,11 +297,13 @@ export const HomeScreen = ({navigation}) => {
             scrollToOverflowEnabled={true}
             horizontal={true}
               style={{ height : 'auto' }}
-            >
+          >
             <View style={style.grid}>
+
+              {/* MY EX BILLIONAIRE TRAILER 2 */}
               <TouchableHighlight
                 underlayColor="black"
-                onPress={() => musicHandler('man with the gun')}>
+                onPress={() => musicHandler('MY EX BILLIONAIRE TRAILER 2')}>
                 <View style={style.box}>
                   <Image
                     style={style.image}
@@ -222,48 +311,76 @@ export const HomeScreen = ({navigation}) => {
                   />
                 </View>
               </TouchableHighlight>
+
+
               <View style={style.box}>
                 <Image
                   style={style.image}
                   source={require('../assert/COMING_SOON/2_CoffeeBlack_Red.png')}
                 />
               </View>
+
               <View style={style.box}>
                 <Image
                   style={style.image}
                   source={require('../assert/COMING_SOON/3_AUTONOMY.png')}
                 />
               </View>
-              <View style={style.box}>
-                <Image
-                  style={style.image}
-                  source={require('../assert/COMING_SOON/4_ADVENTURE_ISLAND_MOVIE.png')}
-                />
-              </View>
+
+              {/* ADVENTURE ISLAND TRAILER */}
+              <TouchableHighlight
+                underlayColor="black"
+                onPress={() => musicHandler('ADVENTURE ISLAND TRAILER')}>
+                <View style={style.box}>
+                  <Image
+                    style={style.image}
+                    source={require('../assert/COMING_SOON/4_ADVENTURE_ISLAND_MOVIE.png')}
+                  />
+                </View>
+              </TouchableHighlight>
+
+
               <View style={style.box}>
                 <Image
                   style={style.image}
                   source={require('../assert/COMING_SOON/5.png')}
                 />
               </View>
-              <View style={style.box}>
-                <Image
-                  style={style.image}
-                  source={require('../assert/COMING_SOON/6_DAD_COVER.png')}
-                />
-              </View>
-              <View style={style.box}>
-                <Image
-                  style={style.image}
-                  source={require('../assert/COMING_SOON/7_HEIST_MOVIE_COVER.jpg')}
-                />
-              </View>
-              <View style={style.box}>
-                <Image
-                  style={style.image}
-                  source={require('../assert/COMING_SOON/8_JuFuzzyFam-3.jpg')}
-                />
-              </View>
+
+              {/* DAD TRAILER */}
+              <TouchableHighlight
+                underlayColor="black"
+                onPress={() => musicHandler('DAD TRAILER')}>
+                <View style={style.box}>
+                  <Image
+                    style={style.image}
+                    source={require('../assert/COMING_SOON/6_DAD_COVER.png')}
+                  />
+                </View>
+              </TouchableHighlight>
+
+              {/* HEIST MOVIE TRAILER */}
+              <TouchableHighlight
+                underlayColor="black"
+                onPress={() => musicHandler('HEIST MOVIE TRAILER')}>
+                <View style={style.box}>
+                  <Image
+                    style={style.image}
+                    source={require('../assert/COMING_SOON/7_HEIST_MOVIE_COVER.jpg')}
+                  />
+                </View>
+              </TouchableHighlight>
+
+              <TouchableHighlight
+                underlayColor="black"
+                onPress={() => videoHandler('PRINCE CHARMING COVER')}>
+                <View style={style.box}>
+                  <Image
+                    style={style.image}
+                    source={require('../assert/COMING_SOON/8_JuFuzzyFam-3.jpg')}
+                  />
+                </View>
+              </TouchableHighlight>
               <View style={style.box}>
                 <Image
                   style={style.image}

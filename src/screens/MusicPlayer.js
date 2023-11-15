@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Style, { colors } from '../css';
 import Slider from '@react-native-community/slider';
 import AudioDataSet from '../Tracks/AudioDataSet'
-import TrackPlayer, {State,useProgress } from 'react-native-track-player';
+import TrackPlayer, {State,useProgress, useTrackPlayerEvents } from 'react-native-track-player';
 import Loading from '../components/Loading'
 
 const setupPlayer = async()=>{
@@ -14,30 +14,47 @@ const setupPlayer = async()=>{
 setupPlayer()
 
 const MusicPlayer =  ({route}) => {
-  console.log(route.params);
+
+  const {position, duration} = useProgress();
+  const [trackTitle, setTrackTitle] = useState();
+
+  
   
   const [data, setData] = useState()
   const [ playing, setPLaying ] = useState(false)
   // const progress = useProgress();
   // console.log(progress);
-
   
-  const track1 = {
-    url: data && data.links[0].src, // Load media from the network
-    title: data &&  data.title,
-    artist: 'deadmau5',
-    album: 'while(1<2)',
-    genre: 'Progressive House, Electro House',
-    date: '2014-05-20T07:00:00+00:00', // RFC 3339
-    artwork: data && data.coverLink, // Load artwork from the network
-    duration: 402 // Duration in seconds
+  function format(seconds) {
+    let mins = (parseInt(seconds / 60)).toString().padStart(2, '0');
+    let secs = (Math.trunc(seconds) % 60).toString().padStart(2, '0');
+    return `${mins}:${secs}`;
   }
-  
- 
+    
   const addPlayList = async()=>{
-    await TrackPlayer.add([track1]);
+    const track1 = {
+      url:  data.links[0].src, // Load media from the network
+      title:   data.links[0].name,
+      artist: 'deadmau5',
+      album: 'while(1<2)',
+      genre: 'Progressive House, Electro House',
+      date: '2014-05-20T07:00:00+00:00', // RFC 3339
+      artwork:  data.coverLink, // Load artwork from the network
+      duration: 4020 // Duration in seconds
+    }
+    await TrackPlayer.add(data.links);
+
+
+    currentTrack()
+    const tracks = await TrackPlayer.getQueue();
   }
-  addPlayList()
+
+
+  const currentTrack = async ()=>{
+    let trackIndex = await TrackPlayer.getCurrentTrack();
+    let {title} = await TrackPlayer.getTrack(trackIndex);
+    setTrackTitle(title)
+  }
 
   const playHandler = async()=>{
     const state = await TrackPlayer.getState();
@@ -55,16 +72,32 @@ const MusicPlayer =  ({route}) => {
 
   const nextHandler = async()=>{
     await TrackPlayer.skipToNext();
+    currentTrack()
 
   }
   const previousHandler = async()=>{
     await TrackPlayer.skipToPrevious();
+    currentTrack()
 
   }
 
+  const timeSeeker = (e)=>{
+    console.log(e);
+    TrackPlayer.seekTo(e);
+  }
+
+  useEffect(()=>{
+    TrackPlayer.reset()
+  }, [])
+
   useEffect(()=>{
     setData(AudioDataSet[route.params])
-  },[])
+    if(data) {
+      addPlayList()
+  
+    }
+  },[data])
+  
 
   return (
     <SafeAreaView style={styles.bg} >
@@ -78,7 +111,7 @@ const MusicPlayer =  ({route}) => {
 
           {/* TITLE */}
           <View>
-            <Text style={[Style.h4, { textAlign : 'center', fontWeight :"400" }]} >{data.title}</Text>
+            <Text style={[Style.h4, { textAlign : 'center', fontWeight :"400" }]} >{trackTitle}</Text>
             <Text style={[Style.h5, { textAlign : 'center', fontWeight :"600" }]} >by Julian</Text>
           </View>
 
@@ -87,15 +120,16 @@ const MusicPlayer =  ({route}) => {
           <Slider
             style={{width: '90%', height: 40}}
             minimumValue={0}
-            maximumValue={1}
+            maximumValue={duration}
             minimumTrackTintColor={colors.secondry}
             maximumTrackTintColor={colors.secondry}
-          
+            onValueChange={timeSeeker}
+            value={position}
             />
 
           <View style={[Style.row, {  alignSelf : 'flex-start', marginHorizontal : 'auto', width : '100%', paddingHorizontal : '5%' }]} >
-            <Text style={Style.span} >0.00</Text>
-            <Text style={[Style.span, { marginLeft : 'auto' }]} >3.42</Text>
+            <Text style={Style.span} >{format(position)}</Text>
+            <Text style={[Style.span, { marginLeft : 'auto' }]} >{format(duration)}</Text>
           </View>
                 
           {/* BUTTON OPTIONS */}

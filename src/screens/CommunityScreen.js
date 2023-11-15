@@ -33,7 +33,7 @@ const CommunityScreen = () => {
   
   useFocusEffect(
     useCallback(() => {
-
+      console.log(contacts);
   }, [])
 )
 
@@ -50,7 +50,7 @@ const CommunityScreen = () => {
             if(user._id === item._id) return
             return (
               <View style={styles.contact} key={item._id} >
-              <Image source={require('../assert/pp.jpg')} style={Style.avatarProfileS} />
+              <Image source={ item.profile_image ? { uri : item.profile_image } : require('../assert/icons/avatar.jpg')} style={[Style.avatarProfileS, { backgroundColor : colors.dark }]} />
                 <View style={styles.details} >
                   <Text style={[Style.h4, { fontWeight : '600', marginBottom : 3 }]}>{item.name}</Text>
                   <Text style={[Style.p, { color : '#e5e5e5' }]}>{item.profession}</Text>

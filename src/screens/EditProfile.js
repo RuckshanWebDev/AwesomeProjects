@@ -1,42 +1,71 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import Style, { colors } from '../css'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useGetProfileQuery, useUpdateProfileMutation } from '../features/profileApi'
 import { useFocusEffect } from '@react-navigation/native'
+import { storeData } from '../utils/AsyncStorage'
+import { setUser } from '../features/localSlice'
+import { showMessage } from 'react-native-flash-message'
 
-const EditProfile = () => {
+const EditProfile = ({navigation}) => {
 
+  const dispatch = useDispatch()
   const [name, setName] = useState('')
   const [creator, setCreator] = useState('')
   const [dob, setDob] = useState('')
   const [location, setLocation] = useState('')
   const [interest, setInterest] = useState('')
-  const { token } = useSelector(state=>state.local)
-  const getProfileFn = useGetProfileQuery(token)
+  const { token, user } = useSelector(state=>state.local)
+  // const getProfileFn = useGetProfileQuery(token)
   const [updateProfileFn, updateProfileData ] = useUpdateProfileMutation()
 
-  console.log(updateProfileData);
 
-  const formHandler = ()=>{
+  const formHandler = async ()=>{
     console.log(token);
-    if(token) updateProfileFn({token, data : {name, profession : creator, dob, address : location, hobby : interest} })
+    if(token) {
+      try{
+
+        showMessage({
+          autoHide : false,
+          type: "success",
+          message: "Profile Updating",
+          description: "Please wait",
+          backgroundColor: colors.primary
+        })
+
+        const responce = await updateProfileFn({token, data : {name, profession : creator, dob, address : location, hobby : interest} }).unwrap()
+        console.log(responce.data);
+        dispatch(setUser(responce.data))
+        console.log(user, '😀😀😀😀😀');
+
+        showMessage({
+          autoHide : true,
+          type: "success",
+          message: "Profile Updated",
+        })
+
+        navigation.navigate('BottomTab')
+
+      }catch(err){
+        console.log(err);
+      }
+    } 
   }
 
-useFocusEffect(
+  useFocusEffect(
   useCallback(() => {
-      console.log(token);
-      console.log(getProfileFn);
-      if(getProfileFn.isSuccess){
-        console.log(getProfileFn?.data.data[0].name);
-        setName(getProfileFn?.data.data[0].name)
-        }
+    if(user){
+      console.log(user);
+
+      setName(user.name)
+      setCreator(user.profession)
+      setDob(user.dob)
+      setLocation(user.address)
+      setInterest(user.hobby[0])
+      
+    }
   }, []))
-
-  useEffect(()=>{
-    // setName("Ruck")
-  },[getProfileFn.data])
-
 
 
   return (

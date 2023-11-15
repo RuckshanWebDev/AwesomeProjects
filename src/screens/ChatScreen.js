@@ -1,6 +1,6 @@
 import { TouchableOpacity, SafeAreaView, ScrollView, StyleSheet, Text, View , Image} from 'react-native'
 import React from 'react'
-import Style from '../css'
+import Style, { colors } from '../css'
 
 import FloatButton from '../components/FloatButton'
 import { useGetProfileQuery } from '../features/profileApi'
@@ -43,7 +43,7 @@ export default function ChatScreen({ navigation }) {
               ?
               profile.data?.data[0].friendList.map((item) => {
                 return(<TouchableOpacity onPress={redirectChat} style={styles.chatbar} key={item._id} >
-                  <Image style={Style.avatarProfileS} source={require('../assert/pp.jpg')} />
+                  <Image style={[Style.avatarProfileS, { backgroundColor : colors.dark }]} source={item.profile_image ? { uri : item.profile_image } : require('../assert/icons/avatar.jpg')} />
                   <View style={styles.chatbarContent} >
                     <Text style={[Style.h5, { fontWeight : '600', marginBottom : 3 }]}>{item.name}</Text>
                     <Text style={[Style.span, { color : '#e5e5e5' }]}>{item.profession}</Text>

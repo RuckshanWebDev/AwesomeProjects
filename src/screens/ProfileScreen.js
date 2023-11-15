@@ -3,47 +3,68 @@ import {Image,  SafeAreaView,
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  TouchableOpacity
+
 } from 'react-native';
 import Style, {colors} from '../css';
 import FloatButton from '../components/FloatButton'
-import { useGetProfileQuery } from '../features/profileApi';
+import { useGetProfileQuery, useUpdateProfileMutation } from '../features/profileApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { getData, removeValue, storeData } from '../utils/AsyncStorage';
+import {  removeValue, storeData } from '../utils/AsyncStorage';
 import { setToken, setUser } from '../features/localSlice';
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import Loading from '../components/Loading';
-import { useFocusEffect } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker';
+import { showMessage } from 'react-native-flash-message';
+import { Alert } from 'react-native';
+import ImageUploader from '../utils/ImageUpload';
+
 
 
 const ProfileScreen = () => {
 
   const dispatch = useDispatch()
   const { token, user } = useSelector(state=>state.local)
+  const [model, setModel] = useState(false)
  
 
   const logout = ()=>{
         removeValue('token')
         dispatch(setToken(null))
-    }
+        dispatch(setUser(false))
+  }
 
-    const getProfileFn = useGetProfileQuery(token)
-    console.log('>>>>>>>>>>', getProfileFn);  
-    
-  //   useFocusEffect(
-  //     useCallback(() => {
+  const getProfileFn = useGetProfileQuery(token)
+  const [updateProfileFn] = useUpdateProfileMutation()
 
+  
+  const imageHandler = async (source)=>{
+    const data = await ImageUploader(source, 'profile_images')
+    console.log(data);
+    const profile = await updateProfileFn({token, data : { profile_image : data.url }}).unwrap()
+        console.log(profile, '👿👿👿👿');
+        dispatch(setUser(profile.data))
 
-
-  //   }, [])
-  // )
+        showMessage({
+          autoHide : true,
+          type: "success",
+          message: "Image Uploaded",
+          description: "Please wait",
+        })
+    setModel(false)
+  }
 
   useEffect(()=>{
+    console.log(token);
     if(getProfileFn.isSuccess){
+      if(!user){
       console.log('PROFILE SUCCESS');
+      console.log('>>>>>>>>>>', getProfileFn);  
       storeData('user', getProfileFn.data.data[0], true);
       dispatch(setUser(getProfileFn.data.data[0]))
+      }
     }
   },[getProfileFn.isSuccess])
 
@@ -53,7 +74,12 @@ const ProfileScreen = () => {
       <Loading />
       :
       <>
+      { user && 
       <SafeAreaView style={[style.container, Style.pbL]}>
+      { model && <View style={Style.model} >
+          <TouchableOpacity style={Style.modelBtn} onPress={()=>imageHandler('gallery')} ><Text style={Style.modelBtnText} >Choose from Gallery</Text></TouchableOpacity>
+          <TouchableOpacity style={Style.modelBtn} onPress={()=>imageHandler('camera')} ><Text style={Style.modelBtnText}>Open Camera</Text></TouchableOpacity>
+        </View>}
         <FloatButton type={'edit'} redirect={'EditProfile'} />
         <ScrollView>
           <View
@@ -63,14 +89,18 @@ const ProfileScreen = () => {
               Style.ptM,
               {alignItems: 'center'},
             ]}>
-            <Image
-              style={[Style.avatarProfile, Style.mbS]}
-              source={require('../assert/pp.jpg')}
-            />
-            <Text style={Style.h1}>{getProfileFn?.data?.data[0]?.name || "Name"} </Text>
-            <Text style={Style.h3}>{getProfileFn?.data?.data[0]?.profession || "No Profession"} </Text>
+            <TouchableOpacity onPress={()=> setModel(true) } >
+              <Image
+                style={[Style.avatarProfile, Style.mbS]}
+                // source={getProfileFn?.data?.data[0]?.profile_image ? { uri : getProfileFn?.data?.data[0]?.profile_image } : require('../assert/icons/avatar.jpg')}
+                source={user.profile_image ? { uri : user.profile_image} : require('../assert/icons/avatar.jpg')  }
+                
+                />
+            </TouchableOpacity>
+            <Text style={Style.h1}>{user.name || "Name"} </Text>
+            <Text style={Style.h3}>{user.profession || "No Profession"} </Text>
             <Text style={Style.p}>
-            {getProfileFn?.data?.data[0]?.bio || "Add your Bio"}
+            {user.bio || "Add your Bio"}
             </Text>
           </View>
 
@@ -90,7 +120,7 @@ const ProfileScreen = () => {
                 {gap: 20, alignItems: 'center', paddingHorizontal: 20},
               ]}>
               <Image style={style.icon} source={require('../assert/icons/name.png')} />
-              <Text style={Style.h5}>{getProfileFn?.data?.data[0]?.name || "Name"}</Text>
+              <Text style={Style.h5}>{user?.name || "Name"}</Text>
             </View>
             <View
               style={[
@@ -99,7 +129,7 @@ const ProfileScreen = () => {
                 {gap: 20, alignItems: 'center', paddingHorizontal: 20},
               ]}>
               <Image style={style.icon} source={require('../assert/icons/dob.png')} />
-              <Text style={Style.h5}>{getProfileFn?.data?.data[0]?.dob || "DOB"}</Text>
+              <Text style={Style.h5}>{user?.dob || "DOB"}</Text>
             </View>
             <View
               style={[
@@ -111,7 +141,7 @@ const ProfileScreen = () => {
                 style={style.icon}
                 source={require('../assert/icons/creator.png')}
               />
-              <Text style={Style.h5}>{getProfileFn?.data?.data[0]?.profession || "No Profession"}</Text>
+              <Text style={Style.h5}>{user?.profession || "No Profession"}</Text>
             </View>
             <View
               style={[
@@ -123,7 +153,7 @@ const ProfileScreen = () => {
                 style={style.icon}
                 source={require('../assert/icons/location.png')}
               />
-              <Text style={Style.h5}>{getProfileFn?.data?.data[0]?.location || "Location"}</Text>
+              <Text style={Style.h5}>{user?.address || "Location"}</Text>
             </View>
             <View
               style={[
@@ -135,12 +165,16 @@ const ProfileScreen = () => {
                 style={style.icon}
                 source={require('../assert/icons/interest.png')}
               />
-              <Text style={Style.h5}>{getProfileFn?.data?.data[0]?.hobby[0] || "Interested"}</Text>
+              <Text style={Style.h5}>{user?.hobby[0] || "Interested"}</Text>
             </View>
           </View>
-          <Button title={'Logout'} onPress={logout} />
+
+          <TouchableOpacity style={[Style.btn, Style.mtS , { alignSelf : 'center' }]} onPress={logout} >
+              <Text style={Style.btnText} >Logout</Text>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
+      }
       </>
       }
     </>

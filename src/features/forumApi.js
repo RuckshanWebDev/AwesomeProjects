@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const forumApi = createApi({
     reducerPath: 'forumApi',
-    baseQuery: fetchBaseQuery({  baseUrl: 'https://appropriate-world-backend.onrender.com' }),
+    baseQuery: fetchBaseQuery({  
+        // baseUrl: 'https://appropriate-world-backend.onrender.com'
+         baseUrl: 'http://localhost:5000',
+    }),
     endpoints: (builder) => ({
 
         // All Tweets

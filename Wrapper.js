@@ -21,6 +21,8 @@ import LoginScreen from './src/screens/LoginScreen';
 import ChatScreen from './src/screens/ChatScreen';
 import MessageScreen from './src/screens/MessageScreen';
 import CommunityScreen from './src/screens/CommunityScreen';
+import VideoPlayers from './src/screens/VideoScreen';
+
 
 // Icons
 import HomeIcon from './asset/icons/house-chimney.png'
@@ -156,6 +158,9 @@ const Wrapper = () => {
             {/* Other Screens */}
             <Screen.Screen  name="Music"
             component={MusicPlayer}
+            options={{tabBarButton: props => null, headerShown: false}}/>
+            <Screen.Screen  name="Video"
+            component={VideoPlayers}
             options={{tabBarButton: props => null, headerShown: false}}/>
 
             <Screen.Screen

@@ -10,6 +10,24 @@ export const colors = {
 };
 
 const Style = StyleSheet.create({
+  model:{
+    position : 'absolute',
+    top : '40%',
+    backgroundColor : '#fff',
+    width : '80%',
+    borderRadius : 15,
+    zIndex : 10,
+    alignSelf : 'center'
+  },  
+  modelBtn : {
+    padding : 10
+  },
+  modelBtnText : {
+    fontSize : 24,
+    fontWeight: '600',
+    color : '#000',
+    padding : 10
+  },
   bg: {
     flex: 1,
     backgroundColor: colors.primary,

@@ -20,7 +20,7 @@ const PostAdvanced = ({text = null, image = null,  item, likeHandlerReAdapt }) =
   return (
     <View style={styles.postContainer} >
         <View style={[styles.postHeader, Style.row, { gap : 15, alignItems :'center' }]} >
-            <Image style={Style.avatarProfileSm} source={require('../assert/p3.jpg')} />
+            <Image style={Style.avatarProfileSm} source={ item.author.profile_image ? { uri : item.author.profile_image } : require('../assert/icons/avatar.jpg')} />
             <View>
                 <Text style={[Style.h5]} >{ item.author.name } </Text>
                 <Text style={[Style.span]} >{ item.author.profession }</Text>
